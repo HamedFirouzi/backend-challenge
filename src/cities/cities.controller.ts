@@ -28,12 +28,9 @@ export class CitiesController {
     const lat = coordinate ? +coordinate[0] : 0
     const long =  coordinate ? +coordinate[1] : 0
     const  result =  await this.citiesService.suggestions(name, lat, long, radius, sort);
-    console.log(result[0]);
-    
     return { 
       result
     }
-
   }
 
   @Post()

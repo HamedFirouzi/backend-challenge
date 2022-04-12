@@ -9,7 +9,6 @@ import { InjectModel } from '@nestjs/mongoose';
 @Injectable()
 export class CitiesService {
   constructor(@InjectModel(City.name) private cityModel: Model<CityDocument>) {}
-  // constructor(@InjectModel(Cat.name) private catModel: Model<CatDocument>) {}
 
   public async suggestions(
     name: string,
@@ -21,19 +20,19 @@ export class CitiesService {
     const pipelineStages = []
     const matchObjct = { $match: {} }
 
-    //1. find cities in a certain radius of coordinates
+    // 1. find cities in a certain radius of coordinates
 
-    // pipelineStages.push({
-    //   near: { type: 'Point', coordinates: [ lat, long ] },
-    //   distanceField: 'distance',
-    //   maxDistance: radius,
-    //   spherical: true
-    // })
+    pipelineStages.push({
+      near: { type: 'Point', coordinates: [ lat, long ] },
+      distanceField: 'distance',
+      maxDistance: radius,
+      spherical: true
+    })
 
 
-    //2. Match names by q
-    // if (name) matchObjct['$match']['name'] = { '$regex': name, '$options': 'i' }
-    // pipelineStages.push(matchObjct)
+    // 2. Match names by q
+    if (name) matchObjct['$match']['name'] = { '$regex': name, '$options': 'i' }
+    pipelineStages.push(matchObjct)
 
 
     // //last: return required fields only and add sort
